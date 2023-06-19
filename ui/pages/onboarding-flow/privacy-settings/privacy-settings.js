@@ -21,20 +21,25 @@ import {
   setUseTokenDetection,
   showModal,
   setIpfsGateway,
-  showNetworkDropdown,
   setUseCurrencyRateCheck,
+  toggleNetworkMenu,
 } from '../../../store/actions';
+import { getCurrentNetwork } from '../../../selectors';
 import { ONBOARDING_PIN_EXTENSION_ROUTE } from '../../../helpers/constants/routes';
-import { Icon, TextField } from '../../../components/component-library';
-import NetworkDropdown from '../../../components/app/dropdowns/network-dropdown';
-import NetworkDisplay from '../../../components/app/network-display/network-display';
+import {
+  TextField,
+  PickerNetwork,
+} from '../../../components/component-library';
 import {
   COINGECKO_LINK,
   CRYPTOCOMPARE_LINK,
   PRIVACY_POLICY_LINK,
 } from '../../../../shared/lib/ui-utils';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
-import { EVENT_NAMES, EVENT } from '../../../../shared/constants/metametrics';
+import {
+  MetaMetricsEventCategory,
+  MetaMetricsEventName,
+} from '../../../../shared/constants/metametrics';
 
 import { Setting } from './setting';
 
@@ -55,9 +60,7 @@ export default function PrivacySettings() {
   const [ipfsError, setIPFSError] = useState(null);
   const trackEvent = useContext(MetaMetricsContext);
 
-  const networks = useSelector(
-    (state) => state.metamask.frequentRpcListDetail || [],
-  );
+  const currentNetwork = useSelector(getCurrentNetwork);
 
   const handleSubmit = () => {
     dispatch(
@@ -77,8 +80,8 @@ export default function PrivacySettings() {
     }
 
     trackEvent({
-      category: EVENT.CATEGORIES.ONBOARDING,
-      event: EVENT_NAMES.ONBOARDING_WALLET_ADVANCED_SETTINGS,
+      category: MetaMetricsEventCategory.Onboarding,
+      event: MetaMetricsEventName.OnboardingWalletAdvancedSettings,
       properties: {
         show_incoming_tx: showIncomingTransactions,
         use_phising_detection: usePhishingDetection,
@@ -195,31 +198,17 @@ export default function PrivacySettings() {
                 ])}
 
                 <Box paddingTop={2}>
-                  {networks.length > 1 ? (
+                  {currentNetwork ? (
                     <div className="privacy-settings__network">
                       <>
-                        <NetworkDisplay
-                          onClick={() => dispatch(showNetworkDropdown())}
-                        />
-                        <NetworkDropdown
-                          hideElementsForOnboarding
-                          dropdownStyles={{
-                            position: 'absolute',
-                            top: '40px',
-                            left: '0',
-                            width: '309px',
-                            zIndex: '55',
-                          }}
-                          onAddClick={() => {
-                            dispatch(
-                              showModal({ name: 'ONBOARDING_ADD_NETWORK' }),
-                            );
-                          }}
+                        <PickerNetwork
+                          label={currentNetwork?.nickname}
+                          src={currentNetwork?.rpcPrefs?.imageUrl}
+                          onClick={() => dispatch(toggleNetworkMenu())}
                         />
                       </>
                     </div>
-                  ) : null}
-                  {networks.length === 1 ? (
+                  ) : (
                     <Button
                       type="secondary"
                       rounded
@@ -228,11 +217,10 @@ export default function PrivacySettings() {
                         e.preventDefault();
                         dispatch(showModal({ name: 'ONBOARDING_ADD_NETWORK' }));
                       }}
-                      icon={<Icon name="add" marginRight={2} />}
                     >
                       {t('onboardingAdvancedPrivacyNetworkButton')}
                     </Button>
-                  ) : null}
+                  )}
                 </Box>
               </>
             }
@@ -246,6 +234,7 @@ export default function PrivacySettings() {
                 <Box paddingTop={2}>
                   <TextField
                     style={{ width: '100%' }}
+                    inputProps={{ 'data-testid': 'ipfs-input' }}
                     onChange={(e) => {
                       handleIPFSChange(e.target.value);
                     }}

@@ -52,25 +52,28 @@ describe('Test Snap Cronjob', function () {
           tag: 'button',
         });
 
-        await driver.delay(2000);
+        await driver.waitForSelector({ text: 'Install' });
 
-        // approve install of snap
-        windowHandles = await driver.waitUntilXWindowHandles(3, 1000, 10000);
-        await driver.switchToWindowWithTitle(
-          'MetaMask Notification',
-          windowHandles,
-        );
         await driver.clickElement({
-          text: 'Approve & install',
+          text: 'Install',
           tag: 'button',
         });
 
-        // delay for npm installation
-        await driver.delay(2000);
+        await driver.waitForSelector({ text: 'OK' });
+
+        await driver.clickElement({
+          text: 'OK',
+          tag: 'button',
+        });
 
         // click send inputs on test snap page
-        windowHandles = await driver.waitUntilXWindowHandles(2, 1000, 10000);
         await driver.switchToWindowWithTitle('Test Snaps', windowHandles);
+
+        // wait for npm installation success
+        await driver.waitForSelector({
+          css: '#connectCronjobSnap',
+          text: 'Reconnect to Cronjob Snap',
+        });
 
         // switch to dialog popup, wait for a maximum of 65 seconds
         windowHandles = await driver.waitUntilXWindowHandles(3, 1000, 65000);
@@ -87,7 +90,7 @@ describe('Test Snap Cronjob', function () {
 
         // try to click on the Ok button and pass test if it works
         await driver.clickElement({
-          text: 'Ok',
+          text: 'OK',
           tag: 'button',
         });
       },

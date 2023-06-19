@@ -70,7 +70,9 @@ describe('Backup and Restore', function () {
         await driver.press('#password', driver.Key.ENTER);
 
         // Download user settings
-        await driver.clickElement('.account-menu__icon');
+        await driver.clickElement(
+          '[data-testid="account-options-menu-button"]',
+        );
         await driver.clickElement({ text: 'Settings', tag: 'div' });
         await driver.clickElement({ text: 'Advanced', tag: 'div' });
         await driver.clickElement({
@@ -87,7 +89,7 @@ describe('Backup and Restore', function () {
         assert.notEqual(info, null);
         // Verify Json
         assert.equal(
-          info?.preferences?.frequentRpcListDetail[0].chainId,
+          Object.values(info?.network?.networkConfigurations)?.[0].chainId,
           '0x539',
         );
       },
@@ -107,7 +109,9 @@ describe('Backup and Restore', function () {
         await driver.press('#password', driver.Key.ENTER);
 
         // Restore
-        await driver.clickElement('.account-menu__icon');
+        await driver.clickElement(
+          '[data-testid="account-options-menu-button"]',
+        );
         await driver.clickElement({ text: 'Settings', tag: 'div' });
         await driver.clickElement({ text: 'Advanced', tag: 'div' });
         const restore = await driver.findElement('#restore-file');
