@@ -15,6 +15,7 @@ export class LedgerOffscreenBridge implements LedgerBridge {
   }
 
   destroy() {
+    // TODO: remove listener
     return Promise.resolve();
   }
 
@@ -37,6 +38,7 @@ export class LedgerOffscreenBridge implements LedgerBridge {
   }
 
   updateTransportMethod(transportType: string) {
+    console.log('updateTransportMethod', transportType);
     return new Promise<boolean>((resolve, reject) => {
       chrome.runtime.sendMessage(
         {
