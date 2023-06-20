@@ -4195,15 +4195,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/eth-ledger-bridge-keyring@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "@metamask/eth-ledger-bridge-keyring@npm:0.15.0"
+"@metamask/eth-ledger-bridge-keyring@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@metamask/eth-ledger-bridge-keyring@npm:1.0.0"
   dependencies:
     "@ethereumjs/tx": ^4.1.1
+    "@metamask/utils": ^5.0.0
     eth-sig-util: ^2.0.0
     ethereumjs-util: ^7.0.9
     hdkey: 0.8.0
-  checksum: a4c7ec98904c95cbbbf8f6e3e07ba26ff0328e8d20a94bb8bc2c1da2a944306bcf741a77d85586f25ed8f8f90bb1308d87751e6046d9fb1e531221e2804110e2
+  checksum: a4b450746d0f795bf1ad716895286ba425f64caba76ac65cab52428f9e11eeafed6e9b87b2eadd6ec030cbd4e5f91c82fc9fddfbc338247af3cc0fb83f9dce4b
   languageName: node
   linkType: hard
 
@@ -4248,9 +4249,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/eth-trezor-keyring@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@metamask/eth-trezor-keyring@npm:1.0.0"
+"@metamask/eth-trezor-keyring@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@metamask/eth-trezor-keyring@npm:2.0.0"
   dependencies:
     "@ethereumjs/tx": ^4.0.0
     "@ethereumjs/util": ^8.0.0
@@ -4258,7 +4259,7 @@ __metadata:
     "@trezor/connect-plugin-ethereum": ^9.0.1
     "@trezor/connect-web": ^9.0.6
     hdkey: 0.8.0
-  checksum: fd7110ac7cd1f91f6fbb02718c2a03e7cc9940449c2382c1e7513b22a65f22905cd08c9d8dc3c87ac11d7a25cd092146f29cd6bc1b53b36694c5933bbb65ed41
+  checksum: 9822e7172c39fd1a16af1340d682fe7812e40a3348254a881deffdf7e488b652952e36fd8e36aed8ad586e3a22315b3b4b1863376ba059ac44cded1a2b1537de
   languageName: node
   linkType: hard
 
@@ -24333,9 +24334,9 @@ __metadata:
     "@metamask/eth-json-rpc-middleware": ^11.0.0
     "@metamask/eth-json-rpc-provider": ^1.0.0
     "@metamask/eth-keyring-controller": ^10.0.1
-    "@metamask/eth-ledger-bridge-keyring": ^0.15.0
+    "@metamask/eth-ledger-bridge-keyring": ^1.0.0
     "@metamask/eth-token-tracker": ^4.0.0
-    "@metamask/eth-trezor-keyring": ^1.0.0
+    "@metamask/eth-trezor-keyring": ^2.0.0
     "@metamask/etherscan-link": ^2.2.0
     "@metamask/forwarder": ^1.1.0
     "@metamask/gas-fee-controller": ^6.0.0
