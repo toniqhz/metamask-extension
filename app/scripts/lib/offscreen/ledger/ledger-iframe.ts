@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener(
   (
     msg: {
       target: string;
-      action: typeof LEDGER_ACTION[keyof typeof LEDGER_ACTION];
+      action: (typeof LEDGER_ACTION)[keyof typeof LEDGER_ACTION];
       params: any;
     },
     _sender,
