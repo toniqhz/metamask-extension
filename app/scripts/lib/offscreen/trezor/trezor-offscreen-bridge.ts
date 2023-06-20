@@ -6,7 +6,7 @@ import type {
   EthereumSignTypedDataTypes,
   ConnectSettings,
   Manifest,
-  Response,
+  Response as TrezorResponse,
   EthereumSignedTx,
   PROTO,
   EthereumSignTypedHash,
@@ -67,7 +67,7 @@ export class TrezorOffscreenBridge implements TrezorBridge {
           resolve(response);
         },
       );
-    }) as Response<{ publicKey: string; chainCode: string }>;
+    }) as TrezorResponse<{ publicKey: string; chainCode: string }>;
   }
 
   ethereumSignTransaction(params: Params<EthereumSignTransaction>) {
@@ -82,7 +82,7 @@ export class TrezorOffscreenBridge implements TrezorBridge {
           resolve(response);
         },
       );
-    }) as Response<EthereumSignedTx>;
+    }) as TrezorResponse<EthereumSignedTx>;
   }
 
   ethereumSignMessage(params: Params<EthereumSignMessage>) {
@@ -97,7 +97,7 @@ export class TrezorOffscreenBridge implements TrezorBridge {
           resolve(response);
         },
       );
-    }) as Response<PROTO.MessageSignature>;
+    }) as TrezorResponse<PROTO.MessageSignature>;
   }
 
   ethereumSignTypedData(
@@ -114,6 +114,6 @@ export class TrezorOffscreenBridge implements TrezorBridge {
           resolve(response);
         },
       );
-    }) as Response<PROTO.MessageSignature>;
+    }) as TrezorResponse<PROTO.MessageSignature>;
   }
 }
