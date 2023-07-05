@@ -2,7 +2,7 @@ name: "Conventional Commit Validation PR Title"
 on:
   pull_request:
     branches:
-      - main
+      - master
       - develop
     types: [opened,edited]
 
