@@ -123,7 +123,7 @@ export default function SignatureRequestSIWE({ txData }) {
   };
 
   const rejectNText = t('rejectRequestsN', [messagesCount]);
-
+  console.log('do not merge');
   return (
     <div className="signature-request-siwe">
       <div className="request-signature__navigation">
