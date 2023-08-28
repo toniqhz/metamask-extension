@@ -23,4 +23,7 @@ export const DefaultStory = SelectWrapper.bind({});
 DefaultStory.storyName = 'Default';
 
 export const Demo = SelectWrapper.bind({});
-Demo.args = {};
+Demo.args = {
+  placeholder: 'This is a placeholder',
+  children: 'This is a demo',
+};

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import type { PolymorphicRef, BoxProps } from '../box';
-import { Box } from '..';
+import { Box, Button } from '..';
 
 import {
   SelectWrapperProps,
@@ -10,16 +10,52 @@ import {
 
 export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
   <C extends React.ElementType = 'div'>(
-    { className = '', ...props }: SelectWrapperProps<C>,
+    {
+      className = '',
+      children,
+      placeholder,
+      value,
+      defaultValue,
+      onChange,
+      name,
+      isOpen,
+      onFocus,
+      onBlur,
+      triggerComponent = <Button>Trigger</Button>,
+      ...props
+    }: SelectWrapperProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
+    // Local state to manage whether the dropdown is open
+    const [isDropdownOpen, setDropdownOpen] = useState(isOpen || false);
+
+    const handleDropdownToggle = () => {
+      setDropdownOpen(!isDropdownOpen);
+    };
+
     return (
       <Box
         className={classnames('mm-select-wrapper', className)}
         ref={ref}
+        onFocus={onFocus}
+        onBlur={onBlur}
         {...(props as BoxProps<C>)}
       >
-        SelectWrapper
+        {/* Trigger component that opens/closes the dropdown */}
+        {triggerComponent && (
+          <div onClick={handleDropdownToggle}>{triggerComponent}</div>
+        )}
+
+        {/* Placeholder or selected value */}
+        <div>{value || defaultValue || placeholder}</div>
+
+        {/* Dropdown content */}
+        {isDropdownOpen && (
+          <div>
+            {/* Render select options here */}
+            {children}
+          </div>
+        )}
       </Box>
     );
   },
