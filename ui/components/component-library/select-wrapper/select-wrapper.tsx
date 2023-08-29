@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classnames from 'classnames';
 import type { PolymorphicRef, BoxProps } from '../box';
-import { Box, Button } from '..';
+import { Box, Button, Popover, PopoverPosition } from '..';
 
 import {
   SelectWrapperProps,
@@ -18,16 +18,22 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
       defaultValue,
       onChange,
       name,
-      isOpen,
+      isOpen = true,
       onFocus,
       onBlur,
-      triggerComponent = <Button>Trigger</Button>,
+      triggerComponent = <Button>Trigger Component Test</Button>,
       ...props
     }: SelectWrapperProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
     // Local state to manage whether the dropdown is open
     const [isDropdownOpen, setDropdownOpen] = useState(isOpen || false);
+
+    const [referenceElement, setReferenceElement] = useState();
+
+    const setBoxRef = (ref) => {
+      setReferenceElement(ref);
+    };
 
     const handleDropdownToggle = () => {
       setDropdownOpen(!isDropdownOpen);
@@ -43,19 +49,27 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
       >
         {/* Trigger component that opens/closes the dropdown */}
         {triggerComponent && (
-          <div onClick={handleDropdownToggle}>{triggerComponent}</div>
+          <div
+            ref={setBoxRef}
+            onClick={handleDropdownToggle}
+            style={{ background: 'gold', width: 'max-content' }}
+          >
+            {triggerComponent}
+          </div>
         )}
 
         {/* Placeholder or selected value */}
         <div>{value || defaultValue || placeholder}</div>
 
-        {/* Dropdown content */}
-        {isDropdownOpen && (
-          <div>
-            {/* Render select options here */}
-            {children}
-          </div>
-        )}
+        {/* Popover that renders the dropdown content */}
+        <Popover
+          referenceElement={referenceElement}
+          isOpen={isDropdownOpen}
+          position={PopoverPosition.Bottom}
+          matchWidth
+        >
+          {children}
+        </Popover>
       </Box>
     );
   },
