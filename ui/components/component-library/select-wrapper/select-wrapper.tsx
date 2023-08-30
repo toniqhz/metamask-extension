@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import type { PolymorphicRef, BoxProps } from '../box';
 import { Box, Button, Popover, PopoverPosition } from '..';
+import {
+  useSelectWrapperContext,
+  SelectWrapperContextProvider,
+} from './select-wrapper-context';
 
 import {
   SelectWrapperProps,
@@ -18,7 +22,6 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
       defaultValue,
       onChange,
       name,
-      isOpen = true,
       onFocus,
       onBlur,
       triggerComponent = <Button>Trigger Component Test</Button>,
@@ -26,51 +29,52 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
     }: SelectWrapperProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
-    // Local state to manage whether the dropdown is open
-    const [isDropdownOpen, setDropdownOpen] = useState(isOpen || false);
+    const { isOpen, toggleOpen } = useSelectWrapperContext();
 
-    const [referenceElement, setReferenceElement] = useState();
+    // Setting up the reference element on triggerComponent for the popover
+    const [referenceElement, setReferenceElement] =
+      React.useState<HTMLDivElement | null>(null);
 
-    const setBoxRef = (ref) => {
-      setReferenceElement(ref);
+    const setPopoverRef = (popoverRef: HTMLDivElement | null) => {
+      setReferenceElement(popoverRef);
     };
 
-    const handleDropdownToggle = () => {
-      setDropdownOpen(!isDropdownOpen);
+    // Toggle the dropdown open/closed
+    const handleSelectWrapperToggle = () => {
+      toggleOpen();
     };
 
     return (
-      <Box
-        className={classnames('mm-select-wrapper', className)}
-        ref={ref}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        {...(props as BoxProps<C>)}
-      >
-        {/* Trigger component that opens/closes the dropdown */}
-        {triggerComponent && (
-          <div
-            ref={setBoxRef}
-            onClick={handleDropdownToggle}
-            style={{ background: 'gold', width: 'max-content' }}
-          >
-            {triggerComponent}
-          </div>
-        )}
-
-        {/* Placeholder or selected value */}
-        <div>{value || defaultValue || placeholder}</div>
-
-        {/* Popover that renders the dropdown content */}
-        <Popover
-          referenceElement={referenceElement}
-          isOpen={isDropdownOpen}
-          position={PopoverPosition.Bottom}
-          matchWidth
+      <SelectWrapperContextProvider>
+        <Box
+          className={classnames('mm-select-wrapper', className)}
+          ref={ref}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          {...(props as BoxProps<C>)}
         >
-          {children}
-        </Popover>
-      </Box>
+          {/* Trigger component that opens/closes the dropdown */}
+          {triggerComponent &&
+            React.cloneElement(triggerComponent as React.ReactElement, {
+              ref: setPopoverRef,
+              onClick: handleSelectWrapperToggle,
+              style: { background: 'gold', width: 'max-content' },
+            })}
+
+          {/* Placeholder or selected value */}
+          <div>{value || defaultValue || placeholder}</div>
+
+          {/* Popover that renders the dropdown content */}
+          <Popover
+            referenceElement={referenceElement}
+            isOpen={isOpen}
+            position={PopoverPosition.Bottom}
+            matchWidth
+          >
+            {children}
+          </Popover>
+        </Box>
+      </SelectWrapperContextProvider>
     );
   },
 );
