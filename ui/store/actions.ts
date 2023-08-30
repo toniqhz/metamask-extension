@@ -1184,7 +1184,7 @@ export function removeSnap(
           },
         })) as unknown as any[];
         for (const account of accounts) {
-          dispatch(removeAccount(account.address.toLowerCase()));
+          dispatch(removeAccount(account.id));
         }
       }
       ///: END:ONLY_INCLUDE_IN
