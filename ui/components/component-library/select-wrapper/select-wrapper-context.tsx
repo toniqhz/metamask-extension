@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState } from 'react';
 interface SelectWrapperContextType {
   isOpen: boolean;
   toggleOpen: () => void;
+  placeholder: any | undefined;
 }
 
 // Create the context
@@ -23,7 +24,9 @@ export const useSelectWrapperContext = () => {
 };
 
 // Create the context provider component
-export const SelectWrapperContextProvider: React.FC = ({ children }) => {
+export const SelectWrapperContextProvider: React.FC<{
+  placeholder?: any;
+}> = ({ placeholder, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -33,6 +36,7 @@ export const SelectWrapperContextProvider: React.FC = ({ children }) => {
   const contextValue: SelectWrapperContextType = {
     isOpen,
     toggleOpen,
+    placeholder,
   };
 
   return (

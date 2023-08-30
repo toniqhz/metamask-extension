@@ -41,18 +41,24 @@ Demo.args = {
 };
 
 export const Children: StoryFn<typeof SelectWrapper> = (args) => {
-  const { toggleOpen } = useSelectWrapperContext();
+  const { toggleOpen, placeholder } = useSelectWrapperContext();
 
   const handleButtonClick = () => {
     toggleOpen(); // This will toggle the close state of the SelectWrapper
   };
 
+  console.log('placeholder', placeholder);
+
   return (
     <>
-      <SelectWrapper {...args}>
+      <SelectWrapper
+        {...args}
+        triggerComponent={<Button>Trigger Component Test {placeholder}</Button>}
+        placeholder="Dev"
+      >
         <div>Test</div>
         <hr />
-        <Button onClick={handleButtonClick}>Click Here</Button>
+        <Button onClick={handleButtonClick}>Click Here {placeholder}</Button>
       </SelectWrapper>
     </>
   );

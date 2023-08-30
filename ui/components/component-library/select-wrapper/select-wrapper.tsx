@@ -24,7 +24,7 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
       name,
       onFocus,
       onBlur,
-      triggerComponent = <Button>Trigger Component Test</Button>,
+      triggerComponent,
       ...props
     }: SelectWrapperProps<C>,
     ref?: PolymorphicRef<C>,
@@ -45,7 +45,7 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
     };
 
     return (
-      <SelectWrapperContextProvider>
+      <SelectWrapperContextProvider placeholder={placeholder}>
         <Box
           className={classnames('mm-select-wrapper', className)}
           ref={ref}
@@ -62,7 +62,7 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
             })}
 
           {/* Placeholder or selected value */}
-          <div>{value || defaultValue || placeholder}</div>
+          <div>{placeholder}</div>
 
           {/* Popover that renders the dropdown content */}
           <Popover
