@@ -5,6 +5,12 @@ interface SelectWrapperContextType {
   isOpen: boolean;
   toggleOpen: () => void;
   placeholder: any | undefined;
+  defaultValue: any | undefined;
+  value: any | undefined;
+  onChange: any | undefined;
+  name: any | undefined;
+  onFocus: any | undefined;
+  onBlur: any | undefined;
 }
 
 // Create the context

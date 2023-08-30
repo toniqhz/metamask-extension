@@ -1,6 +1,7 @@
 import { StoryFn, Meta } from '@storybook/react';
 import React from 'react';
 import { Button } from '../button';
+import { SelectButton } from '../select-button';
 import README from './README.mdx';
 
 import {
@@ -41,24 +42,22 @@ Demo.args = {
 };
 
 export const Children: StoryFn<typeof SelectWrapper> = (args) => {
-  const { toggleOpen, placeholder } = useSelectWrapperContext();
+  const { toggleOpen } = useSelectWrapperContext();
 
   const handleButtonClick = () => {
     toggleOpen(); // This will toggle the close state of the SelectWrapper
   };
 
-  console.log('placeholder', placeholder);
-
   return (
     <>
       <SelectWrapper
         {...args}
-        triggerComponent={<Button>Trigger Component Test {placeholder}</Button>}
+        triggerComponent={<SelectButton>Trigger Component Test </SelectButton>}
         placeholder="Dev"
       >
         <div>Test</div>
         <hr />
-        <Button onClick={handleButtonClick}>Click Here {placeholder}</Button>
+        <Button onClick={handleButtonClick}>Click Here</Button>
       </SelectWrapper>
     </>
   );
