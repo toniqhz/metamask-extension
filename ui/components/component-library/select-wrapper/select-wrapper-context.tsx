@@ -1,24 +1,27 @@
 import React, { createContext, useContext, useState } from 'react';
 
-// Define the context shape
 interface SelectWrapperContextType {
   isOpen: boolean;
   toggleOpen: () => void;
-  placeholder: any | undefined;
-  defaultValue: any | undefined;
-  value: any | undefined;
-  onChange: any | undefined;
-  name: any | undefined;
-  onFocus: any | undefined;
-  onBlur: any | undefined;
+  placeholder?: any | undefined;
+  defaultValue?: any | undefined;
+  value?: any | undefined;
+  onChange?: any | undefined;
+  name?: any | undefined;
+  onFocus?: any | undefined;
+  onBlur?: any | undefined;
 }
 
-// Create the context
+// Omitting the props from SelectWrapperContextType to define the props for SelectWrapperContextProvider
+type SelectWrapperContextProviderProps = Omit<
+  SelectWrapperContextType,
+  'isOpen' | 'toggleOpen'
+>;
+
 const SelectWrapperContext = createContext<
   SelectWrapperContextType | undefined
 >(undefined);
 
-// Create a hook to use the context
 export const useSelectWrapperContext = () => {
   const context = useContext(SelectWrapperContext);
   if (!context) {
@@ -29,20 +32,35 @@ export const useSelectWrapperContext = () => {
   return context;
 };
 
-// Create the context provider component
-export const SelectWrapperContextProvider: React.FC<{
-  placeholder?: any;
-}> = ({ placeholder, children }) => {
+export const SelectWrapperContextProvider: React.FC<
+  SelectWrapperContextProviderProps
+> = ({
+  placeholder,
+  children,
+  defaultValue,
+  value,
+  onChange,
+  name,
+  onFocus,
+  onBlur,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
+    console.log('toggleOpen triggered', isOpen);
+    setIsOpen(!isOpen);
   };
 
   const contextValue: SelectWrapperContextType = {
     isOpen,
     toggleOpen,
     placeholder,
+    defaultValue,
+    value,
+    onChange,
+    name,
+    onFocus,
+    onBlur,
   };
 
   return (

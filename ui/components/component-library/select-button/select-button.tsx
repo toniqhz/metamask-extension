@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import type { PolymorphicRef, BoxProps } from '../box';
 import { Box } from '..';
-import { useSelectWrapperContext } from '../select-wrapper';
 
 import {
   SelectButtonProps,
@@ -11,18 +10,32 @@ import {
 
 export const SelectButton: SelectButtonComponent = React.forwardRef(
   <C extends React.ElementType = 'button'>(
-    { className = '', ...props }: SelectButtonProps<C>,
+    {
+      children,
+      className = '',
+      isOpen,
+      toggleOpen,
+      placeholder,
+      ...props
+    }: SelectButtonProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
-    const { placeholder } = useSelectWrapperContext();
     return (
       <Box
         className={classnames('mm-select-button', className)}
         ref={ref}
         as="button"
+        onClick={toggleOpen}
+        // onChange={onChange}
+        // name={name}
+        // onFocus={onFocus}
+        // onBlur={onBlur}
         {...(props as BoxProps<C>)}
       >
-        SelectButton {placeholder}
+        {/* SelectButton {value || defaultValue || placeholder}{' '} */}
+        {placeholder}
+        {isOpen ? 'open' : 'closed'}
+        {children}
       </Box>
     );
   },

@@ -52,7 +52,7 @@ export const Children: StoryFn<typeof SelectWrapper> = (args) => {
     <>
       <SelectWrapper
         {...args}
-        triggerComponent={<SelectButton>Trigger Component Test </SelectButton>}
+        triggerComponent={SelectButton}
         placeholder="Dev"
       >
         <div>Test</div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import type { PolymorphicRef, BoxProps } from '../box';
-import { Box, Button, Popover, PopoverPosition } from '..';
+import { Box, Popover, PopoverPosition } from '..';
 import {
   useSelectWrapperContext,
   SelectWrapperContextProvider,
@@ -24,12 +24,13 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
       name,
       onFocus,
       onBlur,
-      triggerComponent,
+      triggerComponent: TriggerComponent,
       ...props
     }: SelectWrapperProps<C>,
     ref?: PolymorphicRef<C>,
   ) => {
     const { isOpen, toggleOpen } = useSelectWrapperContext();
+    const contextValues = useSelectWrapperContext();
 
     // Setting up the reference element on triggerComponent for the popover
     const [referenceElement, setReferenceElement] =
@@ -39,13 +40,11 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
       setReferenceElement(popoverRef);
     };
 
-    // Toggle the dropdown open/closed
-    const handleSelectWrapperToggle = () => {
-      toggleOpen();
-    };
+    console.log('isOpen wrapper loaded', isOpen);
 
     return (
       <SelectWrapperContextProvider placeholder={placeholder}>
+        <button onClick={toggleOpen}>Hello</button>
         <Box
           className={classnames('mm-select-wrapper', className)}
           ref={ref}
@@ -53,19 +52,11 @@ export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
           onBlur={onBlur}
           {...(props as BoxProps<C>)}
         >
-          {/* Trigger component that opens/closes the dropdown */}
-          {triggerComponent &&
-            React.cloneElement(triggerComponent as React.ReactElement, {
-              ref: setPopoverRef,
-              onClick: handleSelectWrapperToggle,
-              style: { background: 'gold', width: 'max-content' },
-            })}
-
-          {/* Placeholder or selected value */}
-          <div>{placeholder}</div>
+          <TriggerComponent ref={setPopoverRef} {...contextValues} />
 
           {/* Popover that renders the dropdown content */}
           <Popover
+            className="mm-select-wrapper__popover"
             referenceElement={referenceElement}
             isOpen={isOpen}
             position={PopoverPosition.Bottom}

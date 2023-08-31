@@ -47,7 +47,7 @@ export interface SelectWrapperStyleUtilityProps extends StyleUtilityProps {
   /*
    * TODO: write info about type here
    */
-  triggerComponent?: React.ReactNode;
+  triggerComponent: any;
 }
 
 export type SelectWrapperProps<C extends React.ElementType> =

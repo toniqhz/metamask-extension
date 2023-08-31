@@ -1,3 +1,7 @@
 .mm-select-wrapper {
-  // select-wrapper styles
+
+  // may need to create some logic to check if the select is being used within a modal and the z-index might need to support
+  &__popover {
+    z-index: $dropdown-z-index;
+  }
 }
