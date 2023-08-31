@@ -964,7 +964,7 @@ export default class MetamaskController extends EventEmitter {
         'ExecutionService:unhandledError',
         'ExecutionService:outboundRequest',
         'ExecutionService:outboundResponse',
-        'ExecutionService:timerPauseRequest',
+        'ExecutionService:executionTimerRequest',
         'SnapController:snapInstalled',
         'SnapController:snapUpdated',
       ],
