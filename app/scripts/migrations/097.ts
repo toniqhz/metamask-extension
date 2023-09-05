@@ -31,8 +31,8 @@ function transformState(state: Record<string, any>) {
 
   const newTxs = Object.keys(transactions).reduce((txs, txId) => {
     const transaction = transactions[txId];
-    if (transaction?.nonceDetail) {
-      delete transaction.nonceDetail;
+    if (transaction?.nonceDetails) {
+      delete transaction.nonceDetails;
     }
     return {
       ...txs,
