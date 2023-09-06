@@ -1158,6 +1158,12 @@ jobs:
           path: builds-flask
           destination: builds-flask
       - store_artifacts:
+          path: builds-test
+          destination: builds-test
+      - store_artifacts:
+          path: builds-test-flask
+          destination: builds-test-flask
+      - store_artifacts:
           path: coverage
           destination: coverage
       - store_artifacts:
