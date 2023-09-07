@@ -7,6 +7,12 @@ import { useHistory, matchPath } from 'react-router-dom';
 import { toChecksumHexAddress } from '@metamask/controller-utils';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
 import {
+  SelectWrapper,
+  useSelectWrapperContext,
+} from '../../component-library/select-wrapper';
+import { SelectButton } from '../../component-library/select-button';
+import { Button } from '../../component-library/button';
+import {
   MetaMetricsEventCategory,
   MetaMetricsEventName,
 } from '../../../../shared/constants/metametrics';
@@ -168,6 +174,12 @@ export const AppHeader = ({ location }) => {
   // look as desired
   const headerBottomMargin = !popupStatus && disableNetworkPicker ? 4 : 0;
 
+  const { toggleOpen } = useSelectWrapperContext();
+
+  const handleButtonClick = () => {
+    toggleOpen(); // This will toggle the close state of the SelectWrapper
+  };
+
   return (
     <>
       {isUnlocked && !popupStatus ? (
@@ -190,6 +202,12 @@ export const AppHeader = ({ location }) => {
           />
         </Box>
       ) : null}
+      <h1>dev world</h1>
+      <SelectWrapper triggerComponent={SelectButton} placeholder="Dev">
+        <div>Test</div>
+        <hr />
+        <Button onClick={handleButtonClick}>Click Here</Button>
+      </SelectWrapper>
       <Box
         display={Display.Flex}
         className={classnames('multichain-app-header', {

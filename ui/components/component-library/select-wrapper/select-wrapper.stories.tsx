@@ -1,20 +1,20 @@
 import { StoryFn, Meta } from '@storybook/react';
 import React from 'react';
-import { Button } from '../button';
-import { SelectButton } from '../select-button';
+import { SelectButton } from '../select-button/select-button';
+import { SelectOption } from './select-option';
 import README from './README.mdx';
 
 import {
   SelectWrapper,
-  useSelectWrapperContext,
-  SelectWrapperContextProvider,
+  // useSelectWrapperContext,
+  // SelectWrapperContextProvider,
 } from '.';
 
-const SelectWrapperDecorator = (Story, context) => (
-  <SelectWrapperContextProvider>
-    <Story {...context} />
-  </SelectWrapperContextProvider>
-);
+// const SelectWrapperDecorator = (Story, context) => (
+//   <SelectWrapperContextProvider>
+//     <Story {...context} />
+//   </SelectWrapperContextProvider>
+// );
 
 export default {
   title: 'Components/ComponentLibrary/SelectWrapper',
@@ -25,7 +25,7 @@ export default {
     },
   },
   argTypes: {},
-  decorators: [SelectWrapperDecorator],
+  // decorators: [SelectWrapperDecorator],
 } as Meta<typeof SelectWrapper>;
 
 const Template: StoryFn<typeof SelectWrapper> = (args) => {
@@ -42,22 +42,23 @@ Demo.args = {
 };
 
 export const Children: StoryFn<typeof SelectWrapper> = (args) => {
-  const { toggleOpen } = useSelectWrapperContext();
+  // const { toggleOpen } = useSelectWrapperContext();
 
-  const handleButtonClick = () => {
-    toggleOpen(); // This will toggle the close state of the SelectWrapper
-  };
+  // const handleButtonClick = () => {
+  //   toggleOpen(); // This will toggle the close state of the SelectWrapper
+  // };
 
   return (
     <>
-      <SelectWrapper
-        {...args}
-        triggerComponent={SelectButton}
-        placeholder="Dev"
-      >
-        <div>Test</div>
-        <hr />
-        <Button onClick={handleButtonClick}>Click Here</Button>
+      <SelectWrapper triggerComponent={<SelectButton>Click Me</SelectButton>}>
+        <SelectOption value="Option 1">Option 1</SelectOption>
+        <SelectOption value="Option 2">Option 2</SelectOption>
+        <SelectOption value="Option 3">Option 3</SelectOption>
+      </SelectWrapper>
+      <SelectWrapper triggerComponent={<SelectButton>Click Me</SelectButton>}>
+        <SelectOption value="Option 1">Option 1</SelectOption>
+        <SelectOption value="Option 2">Option 2</SelectOption>
+        <SelectOption value="Option 3">Option 3</SelectOption>
       </SelectWrapper>
     </>
   );

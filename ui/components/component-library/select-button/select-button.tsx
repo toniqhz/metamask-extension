@@ -1,42 +1,18 @@
-import React from 'react';
-import classnames from 'classnames';
-import type { PolymorphicRef, BoxProps } from '../box';
-import { Box } from '..';
+import React, { useContext } from 'react';
+import { SelectContext } from '../select-wrapper/select-wrapper';
 
-import {
-  SelectButtonProps,
-  SelectButtonComponent,
-} from './select-button.types';
+export const SelectButton: React.FC = ({ children }) => {
+  const selectContext = useContext(SelectContext);
 
-export const SelectButton: SelectButtonComponent = React.forwardRef(
-  <C extends React.ElementType = 'button'>(
-    {
-      children,
-      className = '',
-      isOpen,
-      toggleOpen,
-      placeholder,
-      ...props
-    }: SelectButtonProps<C>,
-    ref?: PolymorphicRef<C>,
-  ) => {
-    return (
-      <Box
-        className={classnames('mm-select-button', className)}
-        ref={ref}
-        as="button"
-        onClick={toggleOpen}
-        // onChange={onChange}
-        // name={name}
-        // onFocus={onFocus}
-        // onBlur={onBlur}
-        {...(props as BoxProps<C>)}
-      >
-        {/* SelectButton {value || defaultValue || placeholder}{' '} */}
-        {placeholder}
-        {isOpen ? 'open' : 'closed'}
-        {children}
-      </Box>
-    );
-  },
-);
+  if (!selectContext) {
+    throw new Error('SelectButton must be used within a SelectWrapper.');
+  }
+
+  const { selectedValue, isOpen, toggleOpen } = selectContext;
+
+  return (
+    <button onClick={toggleOpen}>
+      {children} {isOpen ? 'yes' : 'no'}
+    </button>
+  );
+};

@@ -1,71 +1,38 @@
-import React from 'react';
-import classnames from 'classnames';
-import type { PolymorphicRef, BoxProps } from '../box';
-import { Box, Popover, PopoverPosition } from '..';
-import {
-  useSelectWrapperContext,
-  SelectWrapperContextProvider,
-} from './select-wrapper-context';
+import React, { useState, ReactNode } from 'react';
 
-import {
-  SelectWrapperProps,
-  SelectWrapperComponent,
-} from './select-wrapper.types';
+type SelectWrapperProps = {
+  triggerComponent: ReactNode;
+};
 
-export const SelectWrapper: SelectWrapperComponent = React.forwardRef(
-  <C extends React.ElementType = 'div'>(
-    {
-      className = '',
-      children,
-      placeholder,
-      value,
-      defaultValue,
-      onChange,
-      name,
-      onFocus,
-      onBlur,
-      triggerComponent: TriggerComponent,
-      ...props
-    }: SelectWrapperProps<C>,
-    ref?: PolymorphicRef<C>,
-  ) => {
-    const { isOpen, toggleOpen } = useSelectWrapperContext();
-    const contextValues = useSelectWrapperContext();
+type SelectContextType = {
+  isOpen: boolean;
+  toggleOpen: () => void;
+  selectedValue: string | null;
+  setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
+};
 
-    // Setting up the reference element on triggerComponent for the popover
-    const [referenceElement, setReferenceElement] =
-      React.useState<HTMLDivElement | null>(null);
-
-    const setPopoverRef = (popoverRef: HTMLDivElement | null) => {
-      setReferenceElement(popoverRef);
-    };
-
-    console.log('isOpen wrapper loaded', isOpen);
-
-    return (
-      <SelectWrapperContextProvider placeholder={placeholder}>
-        <button onClick={toggleOpen}>Hello</button>
-        <Box
-          className={classnames('mm-select-wrapper', className)}
-          ref={ref}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          {...(props as BoxProps<C>)}
-        >
-          <TriggerComponent ref={setPopoverRef} {...contextValues} />
-
-          {/* Popover that renders the dropdown content */}
-          <Popover
-            className="mm-select-wrapper__popover"
-            referenceElement={referenceElement}
-            isOpen={isOpen}
-            position={PopoverPosition.Bottom}
-            matchWidth
-          >
-            {children}
-          </Popover>
-        </Box>
-      </SelectWrapperContextProvider>
-    );
-  },
+export const SelectContext = React.createContext<SelectContextType | undefined>(
+  undefined,
 );
+
+export const SelectWrapper: React.FC<SelectWrapperProps> = ({
+  triggerComponent,
+  children,
+}) => {
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <SelectContext.Provider
+      value={{ isOpen, toggleOpen, selectedValue, setSelectedValue }}
+    >
+      {triggerComponent}
+      {children}
+      {isOpen && <div>Open!</div>}
+    </SelectContext.Provider>
+  );
+};
